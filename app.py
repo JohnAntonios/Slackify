@@ -75,18 +75,20 @@ client = WebClient(token=slack_token)
 def do_it():
 	print("Keep this terminal window open!")
 	status_message = set_status_message(spotify)
+	if status_message != False:
+		try:
+			new_status = dumps({
+				"status_text": status_message,
+				"status_emoji": ":musical_note:"
+			})		
+			res = client.users_profile_set(profile=new_status)
+			if res.status_code == 200 or res is not None:
+				print(f"Success! {status_message}")
 
-	try:
-		new_status = dumps({
-			"status_text": status_message,
-			"status_emoji": ":musical_note:"
-		})		
-		res = client.users_profile_set(profile=new_status)
-		if res.status_code == 200 or res is not None:
-			print(f"Success! {status_message}")
-
-	except SlackApiError as e:
-		print("something broke")
+		except SlackApiError as e:
+			print("something broke")
+	else:
+		print("Not playing anything on Spotify or Paused or Buffering a track")
 
 start_time = time()
 
