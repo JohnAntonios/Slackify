@@ -69,7 +69,7 @@ def set_status_message(spotifyInst):
 
 	return message
 
-slack_token = getenv("SLACK_OAUTH_ACCESS_TOKEN")
+slack_token = input("Slack Token: ")
 client = WebClient(token=slack_token)
 
 def do_it():
